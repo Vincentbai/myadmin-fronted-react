@@ -45,13 +45,47 @@ export default class RichTextEditor extends Component {
         return draftToHtml(convertToRaw(this.state.editorState.getCurrentContent()))
     }
 
+    uploadImageCallBack = (file)=>{
+        return new Promise(
+            (resolve, reject) => {
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', '/manage/img/upload');
+                xhr.setRequestHeader('Authorization', 'Client-ID XXXXX');
+                const data = new FormData();
+                data.append('image', file);
+                xhr.send(data);
+                xhr.addEventListener('load', () => {
+                    const response = JSON.parse(xhr.responseText);
+                    const url = response.data.url
+                    resolve({data:{link:url}});
+                });
+                xhr.addEventListener('error', () => {
+                    const error = JSON.parse(xhr.responseText);
+                    reject(error);
+                });
+            }
+        );
+    }
+
     render() {
         const { editorState } = this.state
         return (
             <Editor
-            editorState={editorState}
-            editorStyle={{border: '1px solid Gainsboro', height: 200, paddingLeft: 10}}
-            onEditorStateChange={this.onEditorStateChange}
+            
+                editorState={editorState}
+                editorStyle={{border: '1px solid Gainsboro', height: 250, paddingLeft: 10}}
+                onEditorStateChange={this.onEditorStateChange}
+                toolbar={{
+                    // 将图片上传删除
+                    options: ['inline', 'blockType', 'fontSize', 'fontFamily', 'list', 'textAlign', 'colorPicker', 'link', 'emoji', 'history'],
+                    inline: { inDropdown: true },
+                    list: { inDropdown: true },
+                    textAlign: { inDropdown: true },
+                    link: { inDropdown: true },
+                    history: { inDropdown: true },
+                    // image: { uploadCallback: this.uploadImageCallBack, alt: { present: true, mandatory: true } },
+                    // image: { icon: undefined ,urlEnabled: false, uploadEnabled: false},
+                }}
             />
         )
     }

@@ -6,7 +6,6 @@ import {PropTypes} from 'prop-types'
 import { reqDeleteImgByImgName } from '../../api'
 import { BASE_IMG_URL } from '../../utils/constants'
 
-
 function getBase64(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()

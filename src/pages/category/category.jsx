@@ -6,6 +6,8 @@ import { reqGetCategoryListByParentId, reqAddCategory, reqUpdateCategory} from '
 import LinkButton from '../../components/link-button/index'
 import AddForm from './add-form'
 import UpdateForm from './update-form'
+import {PAGE_SIZE} from '../../utils/constants'
+
 
 /**
  * 商品分类
@@ -243,7 +245,7 @@ export default class Category extends Component{
                   dataSource={parentId === '0'? level1Categories: level2Categories}
                   bordered = {true}
                   rowKey = '_id'
-                  pagination = {{defaultPageSize:9, showQuickJumper: true}}
+                  pagination = {{defaultPageSize:PAGE_SIZE, showQuickJumper: true}}
                   loading = {loading}
                 /> 
 
