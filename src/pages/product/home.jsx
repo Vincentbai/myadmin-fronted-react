@@ -153,6 +153,7 @@ export default class ProductHome extends Component{
         const { total, productList, loading, searchType, searchKeywords} = this.state
 
         const title = (
+
             <span>
                 <Select 
                     value={searchType} 
@@ -162,6 +163,7 @@ export default class ProductHome extends Component{
                     <Option value="productName">Search By Name</Option>
                     <Option value="productDesc">Search By Description</Option>
                 </Select>
+
                 <Input 
                     placeholder="Keywords" 
                     style={{width:300, margin: '0 15px'}} 
@@ -171,6 +173,7 @@ export default class ProductHome extends Component{
 
                 {/* getProductList(1) 这个1 是pageNum*/}
                 <Button type="primary" onClick={()=>this.getProductList(1)}>Search</Button>
+
             </span>
         )
 
@@ -190,6 +193,7 @@ export default class ProductHome extends Component{
                     columns={this.columns} 
                     rowKey='_id'
                     pagination={{
+                        current: this.pageNum,
                         defaultPageSize: PAGE_SIZE, 
                         showQuickJumper: true, 
                         total:total,

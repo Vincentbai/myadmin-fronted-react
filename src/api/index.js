@@ -67,3 +67,15 @@ export const reqUpdateStatus =  (productId, status) => ajax(BASE + '/manage/prod
 
 // 删除商品照片
 export const reqDeleteImgByImgName = (name) => ajax(BASE + '/manage/img/delete', {name}, 'POST')
+
+/**
+ * 角色接口函数
+ */
+// 获取角色列表
+export const reqGetRoles = () => ajax(BASE + '/manage/role/list')
+
+// 添加角色(这个方法的形参不能随便的定义， 需要和接口文档上的名字保持一致)
+export const reqAddRole = (roleName) => ajax(BASE + '/manage/role/add', {roleName},'POST')
+
+// 更新角色(这个方法的形参不能随便的定义， 需要和接口文档上的名字保持一致)
+export const reqUpdateRole = (role) => ajax(BASE + '/manage/role/update', role, 'POST')
