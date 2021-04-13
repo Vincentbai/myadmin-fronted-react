@@ -68,7 +68,7 @@ const menuList = [
                     },
                     {
                         title: 'Ready',
-                        key: '/powderCoating',
+                        key: '/ready',
                         icon: '',
                         count: 4,
                         
