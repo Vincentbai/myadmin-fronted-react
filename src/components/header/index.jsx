@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import { withRouter } from 'react-router-dom'
 import { Modal } from 'antd'
 import { ExclamationCircleOutlined } from '@ant-design/icons';
+import { connect } from 'react-redux'
 
 import './index.less'
 import {formateTime, formateDate, formateDay} from '../../utils/dateUtils'
@@ -10,6 +11,7 @@ import storageUtils from '../../utils/storageUtils'
 import { reqWeather } from '../../api/index'
 import menuList from '../../config/menuConfig'
 import LinkButton from '../link-button'
+import { logoutAction } from '../../redux/actions'
 
 class Header extends Component{
 
@@ -71,10 +73,13 @@ class Header extends Component{
             onOk:() => {
                 // 删除保存的user数据
                 storageUtils.removeUser()
-                memoryUtils.user = {}
+                // memoryUtils.user = {}
 
+                this.props.logoutAction()
+
+                // 使用 redux 后，状态改变，render后会检测有没有用户，自动跳转
                 // 跳转到login界面
-                this.props.history.replace('/login')
+                // this.props.history.replace('/login')
             }
         });
     }
@@ -103,10 +108,13 @@ class Header extends Component{
 
         const {currentTime, currentDate, weather, iconUrl, temp} = this.state
 
-        const username = memoryUtils.user.username
+        // const username = memoryUtils.user.username
+        const username = this.props.user.username
 
         // 每次render刷新的时候执行，如果放到didmount中只能执行一次
-        const title = this.getTitle()
+        // 非 react-redux
+        // const title = this.getTitle()
+        const title = this.props.headerTitle
         
         return(
             <div className="header">
@@ -122,9 +130,16 @@ class Header extends Component{
                     </div>
                 </div>
             </div>
-
         )
     }
 }
 
-export default withRouter(Header)
+export default connect(
+
+    state => ({ 
+        headerTitle: state.headerTitle,
+        user: state.user
+    }),
+    { logoutAction }
+
+)(withRouter(Header))

@@ -1,10 +1,12 @@
 import React, {Component} from 'react'
 import { Link, withRouter} from 'react-router-dom'
-import { Menu, Badge } from 'antd';
+import { Menu, Badge } from 'antd'
+import {connect} from 'react-redux'
 
 import logo from '../../assets/images/logo.png'
 import './index.less'
 import menuList from '../../config/menuConfig'
+import { setHeaderTitle } from  '../../redux/actions'
 
 const { SubMenu } = Menu;
 
@@ -17,10 +19,17 @@ class LeftNav extends Component{
         return menuList.map(item =>{
 
             if(!item.children){
+
+                // 检查是否是对应的item，防止刷新的时候显示初始值
+                if(item.key === path || path.indexOf(item.key) === 0){
+                    // 如果是对应的值就更新redux中title的值
+                    this.props.setHeaderTitle(item.title)
+                }
+
                 if(item.icon === ''){
                     return(
                         <Menu.Item key={item.key}>
-                            <Link to={item.key}>
+                            <Link to={item.key} onClick={()=> this.props.setHeaderTitle(item.title)}>
                                 <span>{item.title}</span>
                                 <Badge size="small" className="sider-badge" count={item.count} />
                             </Link>
@@ -29,7 +38,7 @@ class LeftNav extends Component{
                 }else{
                     return(
                         <Menu.Item key={item.key} icon={<item.icon />}>
-                            <Link to={item.key}>
+                            <Link to={item.key} onClick={()=> this.props.setHeaderTitle(item.title)}>
                                 <span>{item.title}</span>
                                 <Badge size="small" className="sider-badge" count={item.count} />
                             </Link>
@@ -149,4 +158,7 @@ class LeftNav extends Component{
 
 // withRouter 是高阶组件， 包装非路由组件，返回一个的新的组件
 // 新的组件向非路由组件传递三个属性：history/location/match
-export default withRouter(LeftNav)
+export default connect(
+    state => ({}),
+    {setHeaderTitle}
+)(withRouter(LeftNav))

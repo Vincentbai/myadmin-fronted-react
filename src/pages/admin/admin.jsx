@@ -1,6 +1,7 @@
 import React, {Component}  from 'react'
 import {Redirect, Route, Switch} from 'react-router-dom'
 import { Layout } from 'antd'
+import { connect } from 'react-redux'
 
 import memoryUtils from '../../utils/memoryUtils'
 import LeftNav from '../../components/left-nav'
@@ -21,11 +22,11 @@ const { Footer, Sider, Content } = Layout
  * 
  * 后台管理的路由组件
  */
-export default class admin extends Component{
+ class Admin extends Component{
 
     render(){
 
-        const user = memoryUtils.user;
+        const user = this.props.user
 
         // 如果内存中没有user就表明当前没有登录
         if(!user || !user._id){
@@ -60,3 +61,8 @@ export default class admin extends Component{
         )
     }
 }
+
+export default connect(
+    state => ({user: state.user}),
+    {}
+)(Admin)
